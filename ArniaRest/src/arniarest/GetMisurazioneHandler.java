@@ -1,64 +1,47 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package arniarest;
 
-/**
- *
- * @author gennaioli.francesco
- */
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class GetMisurazioneHandler implements HttpHandler {
-    
-    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private final ArniaService service;
+    private final Gson gson = new Gson();
+
+    public GetMisurazioneHandler(ArniaService service) {
+        this.service = service;
+    }
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        
-        // CORS: Permette ai siti web di leggere i dati
-        exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
-        
-        // Controllo: deve essere per forza una richiesta GET
+        // Accettiamo solo richieste GET dal browser
         if (!exchange.getRequestMethod().equalsIgnoreCase("GET")) {
-            RispostaServer errore = new RispostaServer(405, "Errore: Usa il metodo GET per leggere i dati.");
-            inviaRisposta(exchange, 405, gson.toJson(errore));
+            inviaRisposta(exchange, 405, "{\"errore\": \"Metodo non consentito\"}");
             return;
         }
 
         try {
-            // 1. Chiediamo al Service di darci TUTTA la lista delle rilevazioni salvate
-            List<Rilevazione> listaDati = ArniaService.ottieniTutte();
+            // Chiediamo al service la lista di tutte le rilevazioni nel DB
+            List<Rilevazione> lista = service.ottieniTutteLeRilevazioni();
             
-            // 2. GSON converte l'intera lista di oggetti in una lunga stringa JSON
-            String jsonRisposta = gson.toJson(listaDati);
+            // Trasformiamo la lista Java in una stringa JSON
+            String jsonRisposta = gson.toJson(lista);
             
-            // 3. Inviamo i dati al client
             inviaRisposta(exchange, 200, jsonRisposta);
-            
         } catch (Exception e) {
-            RispostaServer erroreGenerico = new RispostaServer(500, "Errore interno del server: " + e.getMessage());
-            inviaRisposta(exchange, 500, gson.toJson(erroreGenerico));
+            inviaRisposta(exchange, 500, "{\"errore\": \"Errore interno del server\"}");
         }
     }
 
-    /**
-     * Metodo di supporto per inviare la risposta al client
-     */
-    private void inviaRisposta(HttpExchange exchange, int codiceHttp, String jsonRisposta) throws IOException {
+    private void inviaRisposta(HttpExchange exchange, int codice, String risposta) throws IOException {
+        // Impostiamo il tipo di contenuto come JSON e usiamo UTF-8 per gli accenti
         exchange.getResponseHeaders().set("Content-Type", "application/json; charset=UTF-8");
-        byte[] bytes = jsonRisposta.getBytes(StandardCharsets.UTF_8);
-        exchange.sendResponseHeaders(codiceHttp, bytes.length);
-        
+        byte[] bytes = risposta.getBytes(StandardCharsets.UTF_8);
+        exchange.sendResponseHeaders(codice, bytes.length);
         try (OutputStream os = exchange.getResponseBody()) {
             os.write(bytes);
         }

@@ -1,40 +1,31 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package arniarest;
 
-/**
- *
- * @author gennaioli.francesco
- */
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Classe di servizio statica per la gestione dei dati dell'Arnia
- */
 public class ArniaService {
-    
-    // Questa lista simula il nostro database per il momento
-    private static List<Rilevazione> databaseSimulato = new ArrayList<>();
+    private final RilevazioneRepository repository;
 
-    /**
-     * Salva una nuova rilevazione nella lista
-     */
-    public static boolean salvaRilevazione(Rilevazione r) {
-        if (r == null) {
-            return false;
-        }
-        databaseSimulato.add(r);
-        System.out.println("[SERVICE] Rilevazione salvata correttamente nel database simulato.");
-        return true;
+    public ArniaService(RilevazioneRepository repository) {
+        this.repository = repository;
     }
 
-    /**
-     * Restituisce tutto lo storico delle rilevazioni
-     */
-    public static List<Rilevazione> ottieniTutte() {
-        return databaseSimulato;
+    public boolean registraNuovoDato(Rilevazione rilevazione) {
+        try {
+            return repository.salva(rilevazione.getIdSensore(), rilevazione.getDato(), rilevazione.getDataOra());
+        } catch (SQLException e) {
+            System.err.println("Errore SQL salvataggio: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public List<Rilevazione> ottieniTutteLeRilevazioni() {
+        try {
+            return repository.leggiTutte();
+        } catch (SQLException e) {
+            System.err.println("Errore SQL lettura: " + e.getMessage());
+            return new ArrayList<>();
+        }
     }
 }

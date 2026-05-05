@@ -3,13 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/gennaioli.francesco/Documents/NetBeansProjects/ArniaRest/src/arniarest/RispostaServer.java</file>
-            <file>file:/C:/Users/gennaioli.francesco/Documents/NetBeansProjects/ArniaRest/src/arniarest/ArniaServer.java</file>
-            <file>file:/C:/Users/gennaioli.francesco/Documents/NetBeansProjects/ArniaRest/src/arniarest/GetMisurazioneHandler.java</file>
-            <file>file:/C:/Users/gennaioli.francesco/Documents/NetBeansProjects/ArniaRest/src/arniarest/ArniaRest.java</file>
-            <file>file:/C:/Users/gennaioli.francesco/Documents/NetBeansProjects/ArniaRest/src/arniarest/Rilevazione.java</file>
-            <file>file:/C:/Users/gennaioli.francesco/Documents/NetBeansProjects/ArniaRest/src/arniarest/ArniaService.java</file>
-            <file>file:/C:/Users/gennaioli.francesco/Documents/NetBeansProjects/ArniaRest/src/arniarest/PostMisurazioneHandler.java</file>
+            <file>file:/C:/Users/gennaioli.francesco/Desktop/ArniaRest/src/arniarest/ArniaRest.java</file>
+            <file>file:/C:/Users/gennaioli.francesco/Desktop/ArniaRest/src/arniarest/GetMisurazioneHandler.java</file>
+            <file>file:/C:/Users/gennaioli.francesco/Desktop/ArniaRest/src/arniarest/PostMisurazioneHandler.java</file>
+            <file>file:/C:/Users/gennaioli.francesco/Desktop/ArniaRest/src/arniarest/DatabaseManager.java</file>
+            <file>file:/C:/Users/gennaioli.francesco/Desktop/ArniaRest/src/arniarest/RilevazioneRepository.java</file>
+            <file>file:/C:/Users/gennaioli.francesco/Desktop/ArniaRest/src/arniarest/RilevazioneRepositoryImpl.java</file>
+            <file>file:/C:/Users/gennaioli.francesco/Desktop/ArniaRest/src/arniarest/ArniaServer.java</file>
+            <file>file:/C:/Users/gennaioli.francesco/Desktop/ArniaRest/src/arniarest/ArniaService.java</file>
         </group>
     </open-files>
 </project-private>
